@@ -11,10 +11,15 @@ app = Flask(__name__)
 # ###########################################################################################################################
 # CORS(app, origins=["http://127.0.0.1:8000", "http://localhost:8000"], supports_credentials=True)
 # ###########################################################################################################################
-CORS(app, resources={
-    r"/chat": {"origins": ["http://127.0.0.1:8000","http://localhost:8000"]},
-    r"/vision": {"origins": ["hhttp://127.0.0.1:8000","http://localhost:8000"]}
-})
+#CORS(app, resources={
+#    r"/chat": {"origins": ["http://127.0.0.1:8000","http://localhost:8000"]},
+#    r"/vision": {"origins": ["hhttp://127.0.0.1:8000","http://localhost:8000"]}
+#})
+
+app = Flask(__name__)
+
+# CORS abierto para cualquier origen (útil para prototipo / hackathon)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -176,4 +181,5 @@ def chat():
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", "5000"))
+
     app.run(host="0.0.0.0", port=port)
